@@ -6,16 +6,43 @@ const Home = () => {
     const [allPosts, setAllPosts] = useState(null)
     const [searchText, setsearchText] = useState('')
 
-    const RenderCards = ({data, title}) => {
-        if(data?.length > 0) {
-         return data.map((post) => <Card key={post._id} {...post}/>)
+    const fetchPosts = async () => {
+        setLoading(true);
+    
+        try {
+          const response = await fetch('http://localhost:8080/api/v1/post', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+    
+          if (response.ok) {
+            const result = await response.json();
+            setAllPosts(result.data.reverse());
+          }
+        } catch (err) {
+          alert(err);
+        } finally {
+          setLoading(false);
         }
+      };
+    
+      useEffect(() => {
+        fetchPosts();
+      }, []);
+
+    const RenderCards = ({ data, title }) => {
+    if (data?.length > 0) {
         return (
-            <h2 className='mt-5 font-bold text-[#1366c5] text-xl uppercase'>
-                {title}
-            </h2>
-        )
+        data.map((post) => <Card key={post._id} {...post} />)
+        );
     }
+
+    return (
+        <h2 className="mt-5 font-bold text-[#6469ff] text-xl uppercase">{title}</h2>
+    );
+    };
 
   return (
     <section className="max-w-7xl mx-auto">
@@ -41,15 +68,17 @@ const Home = () => {
                         <span className='text-[#222328]'> Search Text</span>
                     </h2>
                 )}
-                <div className="grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3">
-                    {searchText ? (
-                        <RenderCards
-                            data={[]}
-                            title="No Search Results Found" />
-                    ) : (
-                        <RenderCards
-                            data={[]}
-                            title="No Posts Found" />
+            <div className="grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3">
+              {searchText ? (
+                <RenderCards
+                  data={searchedResults}
+                  title="No Search Results Found"
+                />
+              ) : (
+                <RenderCards
+                  data={allPosts}
+                  title="No Posts Yet"
+                />
                     )}
                 </div>
                 </>
