@@ -19,7 +19,7 @@ Welcome to the DALL-E Clone Application. This project is inspired by OpenAI's DA
 
 ## 🚀 Deployment
 
-The application is hosted [here](https://mfierrodalle.online/) on hostinger.
+The application is hosted [here](https://mfierrodalle.online/).
 
 ## 👤 About the Author
 
