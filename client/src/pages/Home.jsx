@@ -21,7 +21,7 @@ const Home = () => {
     
           if (response.ok) {
             const result = await response.json();
-            setAllPosts(result.data);
+            setAllPosts(result.data.reverse());
           }
         } catch (err) {
           alert(err);
