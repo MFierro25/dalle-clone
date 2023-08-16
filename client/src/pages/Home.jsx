@@ -12,7 +12,7 @@ const Home = () => {
         setLoading(true);
     
         try {
-          const response = await fetch('https://dall-e-cr0h.onrender.com', {
+          const response = await fetch('https://dall-e-cr0h.onrender.com/api/v1/dalle', {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -21,7 +21,6 @@ const Home = () => {
     
           if (response.ok) {
             const result = await response.json();
-            console.log(result)
             setAllPosts(result.data.reverse());
           }
         } catch (err) {
